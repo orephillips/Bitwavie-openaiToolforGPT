@@ -55,51 +55,46 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  dateTime:
-                    type: string
-                    format: date-time
-                    description: Transaction date and time
-                  walletId:
-                    type: string
-                    description: Wallet identifier
-                  operation:
-                    type: string
-                    enum: [DEPOSIT, WITHDRAW, FEE]
-                    description: Transaction operation type
-                  type:
-                    type: string
-                    description: Transaction type (e.g., purchase, sale, transfer)
-                  transactionId:
-                    type: string
-                    description: Unique transaction identifier
-                  assetTicker:
-                    type: string
-                    description: Asset ticker symbol
-                  assetAmount:
-                    type: number
-                    description: Amount of asset involved in transaction
-                  assetvalueInBaseCurrency:
-                    type: number
-                    description: Value of asset in base currency
-                  feeAmount:
-                    type: number
-                    description: Fee amount
-                  feeAsset:
-                    type: string
-                    description: Fee asset ticker
-                required:
-                  - dateTime
-                  - walletId
-                  - operation
-                  - type
-                  - transactionId
-                  - assetTicker
-                  - assetAmount
-                  - assetvalueInBaseCurrency
+              type: object
+              properties:
+                transactions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      dateTime:
+                        type: string
+                        format: date-time
+                      walletId:
+                        type: string
+                      operation:
+                        type: string
+                        enum: [DEPOSIT, WITHDRAW, FEE]
+                      type:
+                        type: string
+                      transactionId:
+                        type: string
+                      assetTicker:
+                        type: string
+                      assetAmount:
+                        type: number
+                      assetvalueInBaseCurrency:
+                        type: number
+                      feeAmount:
+                        type: number
+                      feeAsset:
+                        type: string
+                    required:
+                      - dateTime
+                      - walletId
+                      - operation
+                      - type
+                      - transactionId
+                      - assetTicker
+                      - assetAmount
+                      - assetvalueInBaseCurrency
+              required:
+                - transactions
           multipart/form-data:
             schema:
               type: object
@@ -131,51 +126,46 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  dateTime:
-                    type: string
-                    format: date-time
-                    description: Transaction date and time
-                  walletId:
-                    type: string
-                    description: Wallet identifier
-                  operation:
-                    type: string
-                    enum: [DEPOSIT, WITHDRAW, FEE]
-                    description: Transaction operation type
-                  type:
-                    type: string
-                    description: Transaction type (e.g., purchase, sale, transfer)
-                  transactionId:
-                    type: string
-                    description: Unique transaction identifier
-                  assetTicker:
-                    type: string
-                    description: Asset ticker symbol
-                  assetAmount:
-                    type: number
-                    description: Amount of asset involved in transaction
-                  assetvalueInBaseCurrency:
-                    type: number
-                    description: Value of asset in base currency
-                  feeAmount:
-                    type: number
-                    description: Fee amount
-                  feeAsset:
-                    type: string
-                    description: Fee asset ticker
-                required:
-                  - dateTime
-                  - walletId
-                  - operation
-                  - type
-                  - transactionId
-                  - assetTicker
-                  - assetAmount
-                  - assetvalueInBaseCurrency
+              type: object
+              properties:
+                transactions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      dateTime:
+                        type: string
+                        format: date-time
+                      walletId:
+                        type: string
+                      operation:
+                        type: string
+                        enum: [DEPOSIT, WITHDRAW, FEE]
+                      type:
+                        type: string
+                      transactionId:
+                        type: string
+                      assetTicker:
+                        type: string
+                      assetAmount:
+                        type: number
+                      assetvalueInBaseCurrency:
+                        type: number
+                      feeAmount:
+                        type: number
+                      feeAsset:
+                        type: string
+                    required:
+                      - dateTime
+                      - walletId
+                      - operation
+                      - type
+                      - transactionId
+                      - assetTicker
+                      - assetAmount
+                      - assetvalueInBaseCurrency
+              required:
+                - transactions
           multipart/form-data:
             schema:
               type: object
