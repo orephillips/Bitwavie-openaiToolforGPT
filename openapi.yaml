@@ -3,48 +3,30 @@ info:
   title: Bitwavie Processor
   version: 1.0.0
 servers:
-  - url: https://bitwavie-orchestrator-455488113475.us-central1.run.app
+  - url: https://bitwavie-orchestrator-l6ztzqodca-uc.a.run.app
 
 paths:
-  /price/:
+  /price:
     get:
       operationId: getCryptoPrice
-      summary: Get historical crypto price
-      parameters:
-        - name: fromSym
-          in: query
-          required: true
-          schema: { type: string }
-        - name: timestampSEC
-          in: query
-          required: true
-          schema: { type: integer }
-        - name: toFiat
-          in: query
-          schema: { type: string, default: "USD" }
-        - name: service
-          in: query
-          schema: { type: string, default: "coinbase" }
-        - name: resolution
-          in: query
-          schema: { type: string, default: "1d" }
-        - name: timezone
-          in: query
-          schema: { type: string, default: "UTC" }
+      summary: Get cryptocurrency price
       responses:
         '200':
-          description: Historical crypto price
+          description: Cryptocurrency price
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   price:
-                    type: number
-                  asset:
+                    type: object
+                    properties:
+                      value:
+                        type: string
+                  status:
                     type: string
-                  timestamp:
-                    type: integer
+                  message:
+                    type: string
 
   /fifo/universal:
     post:
@@ -112,10 +94,8 @@ paths:
                 properties:
                   status:
                     type: string
-                  results:
-                    type: array
-                    items:
-                      type: object
+                  message:
+                    type: string
 
   /fifo/per_wallet:
     post:
@@ -183,7 +163,5 @@ paths:
                 properties:
                   status:
                     type: string
-                  results:
-                    type: array
-                    items:
-                      type: object
+                  message:
+                    type: string
