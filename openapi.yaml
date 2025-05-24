@@ -1,9 +1,10 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
   title: Bitwavie Processor
   version: 1.0.0
 servers:
   - url: https://bitwavie-orchestrator-455488113475.us-central1.run.app
+
 paths:
   /price/:
     get:
@@ -37,6 +38,13 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  price:
+                    type: number
+                  asset:
+                    type: string
+                  timestamp:
+                    type: integer
 
   /fifo/universal:
     post:
@@ -59,6 +67,13 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
 
   /fifo/per_wallet:
     post:
@@ -81,3 +96,10 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  status:
+                    type: string
+                  results:
+                    type: array
+                    items:
+                      type: object
