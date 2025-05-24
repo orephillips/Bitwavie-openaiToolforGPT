@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: Bitwavie Processor
+  version: 1.0.0
+servers:
+  - url: https://bitwavie-orchestrator-455488113475.us-central1.run.app
+paths:
+  /price/:
+    get:
+      operationId: getCryptoPrice
+      summary: Get historical crypto price
+      parameters:
+        - name: fromSym
+          in: query
+          required: true
+          schema: { type: string }
+        - name: timestampSEC
+          in: query
+          required: true
+          schema: { type: integer }
+        - name: toFiat
+          in: query
+          schema: { type: string, default: "USD" }
+        - name: service
+          in: query
+          schema: { type: string, default: "coinbase" }
+        - name: resolution
+          in: query
+          schema: { type: string, default: "1d" }
+        - name: timezone
+          in: query
+          schema: { type: string, default: "UTC" }
+      responses:
+        '200':
+          description: Historical crypto price
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /fifo/universal:
+    post:
+      operationId: runUniversalFifo
+      summary: Process FIFO for combined wallet inventory
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Universal FIFO results
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /fifo/per_wallet:
+    post:
+      operationId: runPerWalletFifo
+      summary: Process FIFO per wallet
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Per-wallet FIFO results
+          content:
+            application/json:
+              schema:
+                type: object
