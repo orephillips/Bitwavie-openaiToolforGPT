@@ -1,15 +1,57 @@
 openapi: 3.1.0
 info:
-  title: Bitwavie Processor
+  title: Bitwavie Orchestrator
   version: 1.0.0
 servers:
-  - url: https://bitwavie-orchestrator-l6ztzqodca-uc.a.run.app
+  - url: https://bitwavie-orchestrator-455488113475.us-central1.run.app
 
 paths:
   /price:
     get:
       operationId: getCryptoPrice
       summary: Get cryptocurrency price
+      parameters:
+        - name: fromSym
+          in: query
+          required: true
+          description: Cryptocurrency symbol (e.g., 'BTC', 'ETH')
+          schema:
+            type: string
+        - name: timestampSEC
+          in: query
+          required: true
+          description: Unix timestamp in seconds
+          schema:
+            type: integer
+        - name: toFiat
+          in: query
+          required: false
+          description: Target fiat currency
+          schema:
+            type: string
+            default: USD
+        - name: service
+          in: query
+          required: false
+          description: Pricing data source
+          schema:
+            type: string
+            default: coinbase
+        - name: resolution
+          in: query
+          required: false
+          description: Time resolution for price data
+          schema:
+            type: string
+            default: 1d
+            enum: [1d, 1h]
+        - name: timezone
+          in: query
+          required: false
+          description: Timezone for timestamp interpretation
+          schema:
+            type: string
+            default: UTC
       responses:
         '200':
           description: Cryptocurrency price
@@ -21,12 +63,32 @@ paths:
                   price:
                     type: object
                     properties:
+                      mathjs:
+                        type: string
                       value:
                         type: string
                   status:
                     type: string
                   message:
                     type: string
+                  asset:
+                    type: string
+                  currency:
+                    type: string
+                  timestamp:
+                    type: string
+                  type:
+                    type: string
+                  volume:
+                    type: object
+                  high:
+                    type: object
+                  low:
+                    type: object
+                  open:
+                    type: object
+                  close:
+                    type: object
 
   /fifo/universal:
     post:
@@ -47,14 +109,10 @@ paths:
                       dateTime:
                         type: string
                         format: date-time
-                      walletId:
-                        type: string
                       operation:
                         type: string
                         enum: [DEPOSIT, WITHDRAW, FEE]
                       type:
-                        type: string
-                      transactionId:
                         type: string
                       assetTicker:
                         type: string
@@ -68,13 +126,9 @@ paths:
                         type: string
                     required:
                       - dateTime
-                      - walletId
                       - operation
-                      - type
-                      - transactionId
                       - assetTicker
                       - assetAmount
-                      - assetvalueInBaseCurrency
               required:
                 - transactions
           multipart/form-data:
@@ -90,12 +144,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
+                type: array
+                items:
+                  type: object
+                  properties:
+                    endingBalance:
+                      type: number
+                    endingCostBasisUSD:
+                      type: number
+                    realizedGainLossUSD:
+                      type: number
 
   /fifo/per_wallet:
     post:
@@ -139,11 +197,8 @@ paths:
                       - dateTime
                       - walletId
                       - operation
-                      - type
-                      - transactionId
                       - assetTicker
                       - assetAmount
-                      - assetvalueInBaseCurrency
               required:
                 - transactions
           multipart/form-data:
@@ -159,9 +214,17 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
+                type: array
+                items:
+                  type: object
+                  properties:
+                    walletId:
+                      type: string
+                    assetTicker:
+                      type: string
+                    endingBalance:
+                      type: number
+                    endingCostBasisUSD:
+                      type: number
+                    realizedGainLossUSD:
+                      type: number
